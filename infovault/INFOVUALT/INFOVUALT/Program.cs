@@ -103,4 +103,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGet("/api/health", async (AppDbContext db) => {
+    await db.Database.CanConnectAsync();
+    return Results.Ok("Database is awake!");
+});
+
 app.Run();
