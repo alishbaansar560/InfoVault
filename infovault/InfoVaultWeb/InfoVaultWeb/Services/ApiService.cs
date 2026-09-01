@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using InfoVaultWeb.Models;
 
@@ -8,7 +8,7 @@ namespace InfoVaultWeb.Services
     {
         private readonly HttpClient _client;
 
-        private const string BaseUrl = "https://infovault-a6d2h7dscpccf2gj.eastasia-01.azurewebsites.net";
+        private const string BaseUrl = "https://infovualt-a6d2h7dxcpccf2gj.eastasia-01.azurewebsites.net";
 
         public ApiService(HttpClient client)
         {
@@ -24,7 +24,7 @@ namespace InfoVaultWeb.Services
 
         public async Task<string?> LoginAsync(string username, string password)
         {
-            var response = await _client.PostAsJsonAsync("auth/login", new { username, password });
+            var response = await _client.PostAsJsonAsync("api/auth/login", new { username, password });
             if (!response.IsSuccessStatusCode) return null;
 
             var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
@@ -33,7 +33,7 @@ namespace InfoVaultWeb.Services
 
         public async Task<(bool Success, string Details)> RegisterAsync(string username, string password)
         {
-            var response = await _client.PostAsJsonAsync("auth/register", new { username, password });
+            var response = await _client.PostAsJsonAsync("api/auth/register", new { username, password });
             var body = await response.Content.ReadAsStringAsync();
             return (response.IsSuccessStatusCode, $"Status: {response.StatusCode} | Body: {body}");
         }
@@ -41,40 +41,40 @@ namespace InfoVaultWeb.Services
         public async Task<List<Folder>> GetFoldersAsync(string token)
         {
             SetToken(token);
-            return await _client.GetFromJsonAsync<List<Folder>>("folders") ?? new();
+            return await _client.GetFromJsonAsync<List<Folder>>("api/folders") ?? new();
         }
 
         public async Task<bool> CreateFolderAsync(string token, string name)
         {
             SetToken(token);
-            var response = await _client.PostAsJsonAsync("folders", new { name });
+            var response = await _client.PostAsJsonAsync("api/folders", new { name });
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteFolderAsync(string token, int id)
         {
             SetToken(token);
-            var response = await _client.DeleteAsync($"folders/{id}");
+            var response = await _client.DeleteAsync($"api/folders/{id}");
             return response.IsSuccessStatusCode;
         }
 
         public async Task<List<Note>> GetNotesAsync(string token, int folderId)
         {
             SetToken(token);
-            return await _client.GetFromJsonAsync<List<Note>>($"notes/folder/{folderId}") ?? new();
+            return await _client.GetFromJsonAsync<List<Note>>($"api/notes/folder/{folderId}") ?? new();
         }
 
         public async Task<bool> CreateNoteAsync(string token, int folderId, string title, string content)
         {
             SetToken(token);
-            var response = await _client.PostAsJsonAsync("notes", new { folderId, title, content });
+            var response = await _client.PostAsJsonAsync("api/notes", new { folderId, title, content });
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteNoteAsync(string token, int id)
         {
             SetToken(token);
-            var response = await _client.DeleteAsync($"notes/{id}");
+            var response = await _client.DeleteAsync($"api/notes/{id}");
             return response.IsSuccessStatusCode;
         }
     }

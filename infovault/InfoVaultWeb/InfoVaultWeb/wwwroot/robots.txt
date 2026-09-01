@@ -1,4 +1,4 @@
-﻿User-agent: *
-Disallow: /admin/
-Allow: /
-Sitemap: https://localhost:7146/sitemap.xml
+User-agent: *
+Disallow:
+
+Sitemap: https://infovault.azurewebsites.net/sitemap.xml

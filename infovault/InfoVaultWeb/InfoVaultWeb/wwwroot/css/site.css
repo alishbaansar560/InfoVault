@@ -28,6 +28,15 @@ body {
     filter: brightness(0.6);
 }
 
+@media (prefers-reduced-motion: reduce) {
+    #bg-video {
+        display: none !important;
+    }
+    body {
+        background-color: #132238; /* Fallback color for reduced motion */
+    }
+}
+
 /* ===== NAVBAR ===== */
 .custom-navbar {
     background: rgba(255, 255, 255, 0.3) !important;
