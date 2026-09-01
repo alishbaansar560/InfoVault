@@ -1,0 +1,72 @@
+@page
+@model InfoVaultWeb.Pages.FoldersModel
+@{
+    ViewData["Title"] = "My Folders";
+}
+
+<div class="page-header">
+    <h2>📁 My Folders</h2>
+</div>
+
+<div class="content-container">
+    <div class="create-bar mb-3">
+        <form method="post" asp-page-handler="Create" class="d-flex gap-2">
+            <input asp-for="NewFolderName" placeholder="New folder name..." class="form-control" />
+            <button type="submit" class="btn btn-primary px-4">+ Add</button>
+        </form>
+    </div>
+
+    @if (Model.Folders.Any())
+    {
+        <div class="mb-4">
+            <input type="text" id="searchInput" onkeyup="filterFolders()" placeholder="Search folders..." class="form-control" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px;" />
+        </div>
+    }
+
+    <div id="folderList">
+        @if (!Model.Folders.Any())
+        {
+            <div class="empty-state">
+                <img src="/images/ghost.png" alt="Empty Ghost" style="width: 150px; opacity: 0.8; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(100,255,100,0.5)); animation: float 3s ease-in-out infinite;" />
+                <p>No folders yet — create your first one above.</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var folder in Model.Folders)
+            {
+                <div class="folder-card folder-item">
+                    <a asp-page="Notes" asp-route-folderId="@folder.Id" asp-route-folderName="@folder.Name" class="folder-name-link">📂 @folder.Name</a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@folder.Id">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    @@keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+</style>
+
+<script>
+function filterFolders() {
+    var input = document.getElementById("searchInput");
+    var filter = input.value.toLowerCase();
+    var nodes = document.getElementsByClassName("folder-item");
+    
+    for (var i = 0; i < nodes.length; i++) {
+        var a = nodes[i].querySelector(".folder-name-link");
+        if (a.innerText.toLowerCase().indexOf(filter) > -1) {
+            nodes[i].style.display = "flex";
+        } else {
+            nodes[i].style.display = "none";
+        }
+    }
+}
+</script>

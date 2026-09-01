@@ -1,0 +1,266 @@
+@font-face {
+    font-family: 'Gorewild';
+    src: url('/fonts/Gorewild.ttf') format('truetype');
+}
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Gorewild', sans-serif !important;
+}
+
+body {
+    background-color: transparent;
+    color: #fff;
+    min-height: 100vh;
+}
+
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    filter: brightness(0.6);
+}
+
+/* ===== NAVBAR ===== */
+.custom-navbar {
+    background: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.navbar-brand {
+    font-family: 'Gorewild', sans-serif !important;
+    font-size: 28px;
+    color: #000 !important;
+}
+
+.nav-link {
+    color: #000 !important;
+    font-weight: 600;
+}
+
+/* ===== AUTH PAGES ===== */
+.auth-card {
+    max-width: 420px;
+    margin: 40px auto; /* Moved up */
+    padding: 45px 40px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.auth-card h2 {
+    margin-bottom: 8px;
+    color: #000 !important;
+    font-size: 32px;
+}
+
+.auth-subtitle {
+    color: #222;
+    margin-bottom: 28px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.auth-card .form-control {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.5);
+    color: #000;
+    transition: all 0.2s;
+}
+
+.auth-card .form-control:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.auth-card label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 6px;
+    display: block; /* Fix for bootstrap issues */
+}
+
+.btn-link {
+    color: #000 !important;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.btn-link:hover {
+    color: #333 !important;
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background: #000 !important;
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+    max-width: 750px;
+    margin: 50px auto 25px auto;
+    padding: 0 20px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.page-header h2 {
+    color: #fff;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-header a {
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.page-header a:hover {
+    text-decoration: underline;
+}
+
+.content-container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+}
+
+/* ===== FOLDER CARDS ===== */
+.folder-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.folder-card:hover {
+    transform: translateX(10px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.folder-card a {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* ===== NOTE CARDS ===== */
+.note-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeInUp 0.6s ease-out;
+    transition: transform 0.3s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.note-card strong {
+    font-size: 17px;
+    color: #fff;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.note-card p {
+    color: #e0e0e0;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+/* ===== FORMS (create folder/note bars) ===== */
+.create-bar {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.create-bar .form-control, .create-bar textarea {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.create-bar .form-control:focus, .create-bar textarea:focus {
+    border-color: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== BUTTONS ===== */
+.btn-outline-danger {
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 5px 14px;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }

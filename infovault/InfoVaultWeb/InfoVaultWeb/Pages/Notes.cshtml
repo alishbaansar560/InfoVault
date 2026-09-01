@@ -1,0 +1,48 @@
+﻿@page
+@model InfoVaultWeb.Pages.NotesModel
+@{
+    ViewData["Title"] = Model.FolderName;
+}
+
+<div class="page-header">
+    <a asp-page="Folders">&larr; Back to folders</a>
+    <h2 class="mt-2">📝 @Model.FolderName</h2>
+</div>
+
+<div class="content-container">
+    <div class="create-bar">
+        <form method="post" asp-page-handler="Create">
+            <input type="hidden" asp-for="FolderId" />
+            <input type="hidden" asp-for="FolderName" />
+            <div class="mb-2">
+                <input asp-for="NewTitle" placeholder="Note title" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <textarea asp-for="NewContent" placeholder="Write something..." class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary px-4">+ Add Note</button>
+        </form>
+    </div>
+
+    @if (!Model.Notes.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <p>No notes in this folder yet.</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var note in Model.Notes)
+        {
+            <div class="note-card">
+                <strong>@note.Title</strong>
+                <p>@note.Content</p>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@note.Id"
+                      asp-route-folderId="@Model.FolderId" asp-route-folderName="@Model.FolderName">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </div>
+        }
+    }
+</div>

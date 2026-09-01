@@ -1,0 +1,6 @@
+@INFOVUALT_HostAddress = http://localhost:5135
+
+GET {{INFOVUALT_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
