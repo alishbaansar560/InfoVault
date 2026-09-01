@@ -45,9 +45,11 @@ function togglePassword(inputId, btn) {
     if (x.type === "password") {
         x.type = "text";
         btn.innerText = "🙈";
+        btn.setAttribute("aria-pressed", "true");
     } else {
         x.type = "password";
         btn.innerText = "👁️";
+        btn.setAttribute("aria-pressed", "false");
     }
 }
 </script>
