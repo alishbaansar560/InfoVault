@@ -29,13 +29,24 @@ namespace InfoVaultWeb.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             if (Token == null) return RedirectToPage("Login");
-            Notes = await _api.GetNotesAsync(Token, FolderId);
+
+            try
+            {
+                Notes = await _api.GetNotesAsync(Token, FolderId);
+            }
+            catch (HttpRequestException)
+            {
+                // Folder doesn't exist or doesn't belong to this user
+                return RedirectToPage("NotFound");
+            }
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
         {
             if (Token == null) return RedirectToPage("Login");
+
             await _api.CreateNoteAsync(Token, FolderId, NewTitle, NewContent);
             return RedirectToPage(new { FolderId, FolderName });
         }
@@ -43,6 +54,7 @@ namespace InfoVaultWeb.Pages
         public async Task<IActionResult> OnPostDeleteAsync(int id, int folderId, string folderName)
         {
             if (Token == null) return RedirectToPage("Login");
+
             await _api.DeleteNoteAsync(Token, id);
             return RedirectToPage(new { FolderId = folderId, FolderName = folderName });
         }
