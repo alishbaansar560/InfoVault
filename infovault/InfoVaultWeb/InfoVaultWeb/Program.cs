@@ -3,17 +3,31 @@ using InfoVaultWeb.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+
 builder.Services.AddHttpClient<ApiService>()
-    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    .ConfigurePrimaryHttpMessageHandler(() =>
     {
-        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+        var handler = new HttpClientHandler();
+        if (builder.Environment.IsDevelopment())
+        {
+            // Only bypass certificate validation locally (e.g. self-signed dev certs)
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+        }
+        return handler;
     });
+
 builder.Services.AddSession(); // lets us store the JWT token per browser session
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAntiforgery(options =>
 {
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
 });
 
 var app = builder.Build();
@@ -34,6 +48,10 @@ app.Use(async (context, next) =>
     context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
     context.Response.Headers.Append("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
+    context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");
+    context.Response.Headers.Append("Cross-Origin-Embedder-Policy", "require-corp");
+    context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-origin");
+    context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", "none");
     context.Response.Headers.Remove("X-Powered-By");
     context.Response.Headers.Remove("Server");
     await next();
