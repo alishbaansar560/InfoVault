@@ -30,14 +30,17 @@ builder.Services.AddRateLimiter(options => {
 var supabaseString = builder.Configuration["SUPABASE_CONNECTION_STRING"] ?? Environment.GetEnvironmentVariable("SUPABASE_CONNECTION_STRING");
 
 builder.Services.AddDbContext<AppDbContext>(options => {
-    if (!string.IsNullOrEmpty(supabaseString)) {
+    if (!string.IsNullOrEmpty(supabaseString))
+    {
         options.UseNpgsql(supabaseString);
-    } else {
+    }
+    else
+    {
         options.UseInMemoryDatabase("InfoVaultDb");
     }
 });
-// JWT Authentication
 
+// JWT Authentication
 
 var jwtKey = builder.Configuration["Jwt:Key"]!;
 
@@ -62,7 +65,6 @@ builder.Services.AddAuthentication(options =>
 
 // Controllers + JSON
 
-
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
@@ -79,11 +81,19 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 // Services
 
 builder.Services.AddScoped<INFOVUALT.Services.TokenService>();
+
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
+
+// HSTS configuration
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+});
 
 var app = builder.Build();
 
@@ -94,7 +104,28 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+
 app.UseHttpsRedirection();
+
+// Security Headers Middleware
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");
+    context.Response.Headers.Append("Cross-Origin-Embedder-Policy", "require-corp");
+    context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-origin");
+    context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", "none");
+    context.Response.Headers.Remove("X-Powered-By");
+    context.Response.Headers.Remove("Server");
+    await next();
+});
+
 app.UseRateLimiter();
 app.UseMiddleware<ExceptionMiddleware>();
 
